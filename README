@@ -1,0 +1,18 @@
+boid, io package manager
+
+basics
+
+  % handles multiple environments
+  % no single package type: scm checkouts, files, directories, ...
+
+usage
+
+  % packages
+    $ boid install <package-spec>
+    $ boid uninstall <package-spec>
+    $ boid list
+  
+  % environments
+    $ boid env create <name>
+    $ boid env destroy <name>
+    $ boid env list
