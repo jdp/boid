@@ -15,4 +15,15 @@ usage
   % environments
     $ boid env create <name>
     $ boid env destroy <name>
+    $ boid env use <name>
     $ boid env list
+
+setup
+
+  $ io setup.io
+  $ boid check
+
+about
+
+  (c) 2009 justin poliey
+  modeled after rip http://hellorip.com

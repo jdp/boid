@@ -16,6 +16,20 @@ Boid := Object clone do(
 		Importer addSearchPath(ioDir)
 	)
 	
+	installPackage := method()
+	
+	uninstallPackage := method()
+	
+	listPackages := method()
+	
+	createEnvironment := method()
+	
+	destroyEnvironment := method()
+	
+	listEnvironments := method()
+	
+	activeEnvironment := method()
+	
 	fail := method(msg,
 		"boid: #{msg}" interpolate println
 		System exit(1)
