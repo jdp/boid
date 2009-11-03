@@ -1,9 +1,12 @@
-boid, io package manager
+boid, io environment & package manager
 
 basics
 
   % handles multiple environments
-  % no single package type: scm checkouts, files, directories, ...
+  % handles many types of packages
+    - files
+    - directories
+    - scm checkouts
 
 usage
 
@@ -17,11 +20,26 @@ usage
     $ boid env destroy <name>
     $ boid env use <name>
     $ boid env list
+    $ boid env active
 
 setup
 
   $ io setup.io
   $ boid check
+  
+todo
+
+  % package boid as an addon. it's got the right directory structure, but
+    i can't get io to recognize it
+  % more intelligent setup script
+  % package installation
+  % official io has to respect IOIMPORT variable. i've submitted a patch,
+    we'll see if it gets accepted
+  % working with the file system is a pain in io. there is no command to
+    make a whole directory tree, recursively delete directories, create
+    symbolic links, expand paths, etc. until that happens, the active
+    environment is marked by having a .active file in its directory and
+    there are too many System system() calls for my liking
 
 about
 
