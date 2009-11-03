@@ -1,47 +1,64 @@
 BoidException := Exception clone
+Boid := Object clone
+Boid Environment := Object clone
+Boid Package := Object clone
 
-Boid := Object clone do(
+Boid do(
 
-	orient := method(
-		self boidDir := System getEnvironmentVariable("BOIDDIR")
-		self boidDir ifNil(fail("BOIDDIR environment variable not set"))
-		Directory with(boidDir) exists ifFalse(fail("`#{boidDir}' does not exist" interpolate))
-		self binDir := boidDir .. "/active/bin"
-		Directory with(binDir) exists ifFalse(fail("`#{binDir}' does not exist" interpolate))
-		self ioDir := boidDir .. "/active/io"
-		Directory with(ioDir) exists ifFalse(fail("`#{ioDir}' does not exist" interpolate))
+	//doc 
+	boidDir := method(
+		boidDirEnv := System getEnvironmentVariable("BOIDDIR")
+		boidDirEnv ifNil(fail("BOIDDIR environment variable not set"))
+		Directory with(boidDirEnv)
 	)
-	
-	publicize := method(
-		Importer addSearchPath(ioDir)
+	binDir := method(Directory with(boidDir path .. "/active/bin"))
+	ioDir := method(Directory with(boidDir path .. "/active/io"))
+
+	check := method(
+		if(boidDir exists not, return(false))
+		if(binDir exists not, return(false))
+		if(ioDir exists not, return(false))
+		true
 	)
-	
-	installPackage := method()
-	
-	uninstallPackage := method()
-	
-	listPackages := method()
-	
-	createEnvironment := method()
-	
-	destroyEnvironment := method()
-	
-	listEnvironments := method()
-	
-	activeEnvironment := method()
 	
 	fail := method(msg,
 		"boid: #{msg}" interpolate println
 		System exit(1)
 	)
 	
-	check := method(
-		"Boid operational. Let's party." println
+)
+
+Boid Environment do(
+
+	create := method(envName,
+		env := Directory with(Boid boidDir path .. "/" .. envName)
+		if(env exists, BoidException raise("#{envName} environment already exists" interpolate))
+		env create
+		if(env exists not, BoidException raise("could not create #{envName} environment" interpolate))
 	)
 	
-	startup := method(
-		orient
-		publicize
+	destroy := method(envName
+		env := Directory with(Boid boidDir path .. "/" .. envName)
+		if(env exists not, BoidException raise("#{envName} environment does not exist" interpolate))
+		env remove
+		if(env exists, BoidException raise("could not destroy #{envName} environment" interpolate))
+	)
+	
+	list := method()
+	
+	active := method(Directory with(Boid boidDir path .. "/active"))
+	
+	use := method(envName,
+		env := Directory with(Boid boidDir path .. "/" .. envName)
+		if(env exists not, BoidException raise("#{envName} environment does not exist" interpolate))
+		active remove
+		if(active exists, BoidException raise("could not remove symbolic link to active environment"))
+		System system("ln -s #{env path} #{active path}" interpolate)
+		if(active exists not, BoidException raise("Could not create symbolic link to active environment"))
+	)
+	
+	directories := method(
+		Directory with(boidDir path) directories select(d, (d fileNamed("env.io") exists) and (d name != "active"))
 	)
 	
 )
