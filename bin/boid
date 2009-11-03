@@ -1,7 +1,5 @@
 #!/usr/bin/env io
 
-/* TODO: Package Boid as an Addon */
-Importer addSearchPath("/home/justin/projects/boid/io")
 Boid
 
 Directory setCurrentWorkingDirectory(Boid boidDir path)

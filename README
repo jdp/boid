@@ -29,8 +29,6 @@ setup
   
 todo
 
-  % package boid as an addon. it's got the right directory structure, but
-    i can't get io to recognize it
   % more intelligent setup script
   % package installation
   % official io has to respect IOIMPORT variable. i've submitted a patch,
