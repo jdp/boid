@@ -24,8 +24,24 @@ usage
 
 setup
 
-  $ io setup.io
-  $ boid check
+  setting up io addons really is a pain, and hopefully in the future
+  io will respect the IOIMPORT variable so boid won't have to be
+  installed as an addon.
+
+  first:
+  	you need to install boid as an addon
+  	$ cd /wherever/you/put/io/addons
+  	$ git clone git://github.com/jdp/boid.git
+  	$ mv boid Boid
+  	$ cd ..
+  	$ make addons
+  	$ sudo make install
+  	
+  then:
+    $ cd addons/Boid
+    $ io setup.io
+    # then copy bin/boid somewhere in your PATH
+    $ boid check
   
 todo
 
@@ -33,11 +49,8 @@ todo
   % package installation
   % official io has to respect IOIMPORT variable. i've submitted a patch,
     we'll see if it gets accepted
-  % working with the file system is a pain in io. there is no command to
-    make a whole directory tree, recursively delete directories, create
-    symbolic links, expand paths, etc. until that happens, the active
-    environment is marked by having a .active file in its directory and
-    there are too many System system() calls for my liking
+  % too many System system() calls for my liking. io really needs a
+    clone of Ruby's FileUtils, i.e., rm_rf, ln_s, mkdir_p, readlink, etc.
 
 about
 
