@@ -24,35 +24,21 @@ usage
 
 setup
 
-  setting up io addons really is a pain, and hopefully in the future
-  io will respect the IOIMPORT variable so boid won't have to be
-  installed as an addon.
-
-  first:
-  	you need to install boid as an addon
-  	$ cd /wherever/you/put/io/addons
-  	$ git clone git://github.com/jdp/boid.git
-  	$ mv boid Boid
-  	$ cd ..
-  	$ make addons
-  	$ sudo make install
-  	
-  then:
-    $ cd addons/Boid
+    $ git clone git://github.com:jdp/boid.git
+    $ cd boid
     $ io setup.io
     # then copy bin/boid somewhere in your PATH
+    $ cp boid.io ~/bin/boid
     $ boid check
   
 todo
 
   % more intelligent setup script
   % package installation
-  % official io has to respect IOIMPORT variable. i've submitted a patch,
-    we'll see if it gets accepted
   % too many System system() calls for my liking. io really needs a
     clone of Ruby's FileUtils, i.e., rm_rf, ln_s, mkdir_p, readlink, etc.
 
 about
 
-  (c) 2009 justin poliey http://justinpoliey.com
+  (c) 2009-2010 justin poliey http://justinpoliey.com
   modeled after rip http://hellorip.com
