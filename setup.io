@@ -62,7 +62,7 @@ BoidSetup do(
 	
 	# Create the necessary symbolic links
 	"% activating base environment" println
-	"ln -s #{baseDir path} #{boidDir path}/active" interpolate println
+	#"ln -s #{baseDir path} #{boidDir path}/active" interpolate println
 	cmd := System runCommand("ln -s #{baseDir path} #{boidDir path}/active" interpolate)
 	if(cmd exitStatus > 0, abort("failed to create symlink to active environment:\n  #{cmd stderr}" interpolate))
 	File with(baseDir path .. "/.active") create
