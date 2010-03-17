@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Environment.io</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        <a class="source" href="Boid.html">Boid.io</a>
+        <a class="source" href="Environment.html">Environment.io</a>
+        <a class="source" href="Git.html">Git.io</a>
+        <a class="source" href="Package.html">Package.io</a>
+        </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>Environment.io</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-1">#</a>
+        </div>
+        <p> A Boid environment is a collection of individual packages. There can only
+ be one version of a package installed in an environment, but Boid allows you
+ to maintain multiple environments and activate different ones as needed,
+ which allows you to have multiple non-conflicting versions of the same
+ package installed on your system.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-2">#</a>
+        </div>
+        <p> The <code>Boid Environment</code> object is actually the environment manager.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="n">Boid</span> <span class="n">Environment</span> <span class="o">:=</span> <span class="n">Object</span> <span class="k">clone</span> <span class="k">do</span><span class="o">(</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-3">#</a>
+        </div>
+        <p> Each environment has its own directory within Boid&rsquo;s directory.
+ This method returns a <code>List</code> of <code>Directory</code> objects for all of the
+ environment directories, except for the symlink to the active environment.</p>
+
+<p> Environment directories have this structure:</p>
+
+<pre><code> environment_name/
+   bin/
+   io/
+</code></pre>
+
+<p> The <strong>bin/</strong> directory is where executable files go, and the <strong>io/</strong>
+ directory is where Io source files go. The <strong>active</strong> symlink in the
+ Boid directory points to the active environment&rsquo;s directory, and the
+ Boid setup script adds <strong>~/.boid/active/bin</strong> to your <code>PATH</code> and
+ <strong>~/boid/active/io</strong> to your <code>IOIMPORT</code>.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">directories</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span>
+    <span class="n">Directory</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">boidDir</span> <span class="n">path</span><span class="o">)</span> <span class="n">directories</span> <span class="n">select</span><span class="o">(</span><span class="n">d</span><span class="o">,</span> <span class="n">d</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&quot;active&quot;</span><span class="o">))</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-4">#</a>
+        </div>
+        <p> A new environment is created by creating a new directory in the Boid
+ directory. Then, the <strong>bin/</strong> and <strong>io/</strong> files are created in the
+ directory of the newly created environment.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">create</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">envName</span><span class="o">,</span>
+    <span class="n">env</span> <span class="o">:=</span> <span class="n">Directory</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">boidDir</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/&quot;</span> <span class="o">..</span> <span class="n">envName</span><span class="o">)</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">env</span> <span class="n">exists</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;#{envName} environment already exists&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="n">env</span> <span class="n">create</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">env</span> <span class="n">exists</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;could not create #{envName} environment&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="n">Directory</span> <span class="n">with</span><span class="o">(</span><span class="n">env</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/bin&quot;</span><span class="o">)</span> <span class="n">create</span>
+    <span class="n">Directory</span> <span class="n">with</span><span class="o">(</span><span class="n">env</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/io&quot;</span><span class="o">)</span> <span class="n">create</span><span class="o">)</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-5">#</a>
+        </div>
+        <p> To destroy an environment, all that needs to happen is the erasure of
+ its directory. Destroying the active environment is not permitted.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">destroy</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">envName</span><span class="o">,</span>
+    <span class="n">env</span> <span class="o">:=</span> <span class="n">Directory</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">boidDir</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/&quot;</span> <span class="o">..</span> <span class="n">envName</span><span class="o">)</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">env</span> <span class="n">exists</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;#{envName} environment does not exist&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">env</span> <span class="n">at</span><span class="o">(</span><span class="s">&quot;.active&quot;</span><span class="o">),</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;can not destroy the active environment&quot;</span><span class="o">))</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;rm -rf #{env path}&quot;</span> <span class="n">interpolate</span><span class="o">)</span> <span class="n">exitStatus</span> <span class="o">&gt;</span> <span class="mf">0</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;could not destroy #{envName} environment&quot;</span> <span class="n">interpolate</span><span class="o">)))</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-6">#</a>
+        </div>
+        <p> A <code>Directory</code> object for the active environment is returned by the
+ <code>active</code> method.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">active</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">Directory</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">boidDir</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/active&quot;</span><span class="o">))</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-7">#</a>
+        </div>
+        <p> Switching the active environment is a little trickier. The active
+ environment also has a file called <strong>.active</strong> placed in it, so that the
+ name of the active environment can be found.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">use</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">envName</span><span class="o">,</span>
+    <span class="n">env</span> <span class="o">:=</span> <span class="n">Directory</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">boidDir</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/&quot;</span> <span class="o">..</span> <span class="n">envName</span><span class="o">)</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">env</span> <span class="n">exists</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;#{envName} environment does not exist&quot;</span> <span class="n">interpolate</span><span class="o">))</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-8">#</a>
+        </div>
+        <p> First the <strong>.active</strong> file needs to be removed.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">active</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/.active&quot;</span><span class="o">)</span> <span class="n">remove</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-9">#</a>
+        </div>
+        <p> Then the symlink to the active environment is removed.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">active</span> <span class="n">remove</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">active</span> <span class="n">exists</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;could not remove symbolic link to active environment&quot;</span><span class="o">))</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-10'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-10">#</a>
+        </div>
+        <p> Finally, a new symlink is created to the new active environment.</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span><span class="o">(</span><span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;ln -s #{env path} #{active path}&quot;</span> <span class="n">interpolate</span><span class="o">)</span> <span class="n">exitStatus</span> <span class="o">&gt;</span> <span class="mf">0</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;could not create symbolic link to active environment&quot;</span><span class="o">))</span>
+    <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">active</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/.active&quot;</span><span class="o">)</span> <span class="n">create</span><span class="o">))</span>
+    </pre></div>
+      </td>
+    </tr>
+    </table>
+</div>
+</body>

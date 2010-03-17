@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Package.io</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        <a class="source" href="Boid.html">Boid.io</a>
+        <a class="source" href="Environment.html">Environment.io</a>
+        <a class="source" href="Git.html">Git.io</a>
+        <a class="source" href="Package.html">Package.io</a>
+        </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>Package.io</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-1">#</a>
+        </div>
+        <p> A Boid environment is a collection of <em>packages</em>. Eventually installable
+ packages will include single Io source files, directories, and version control
+ system checkouts.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-2">#</a>
+        </div>
+        <p> The <code>Boid Package</code> object shows the minimum structure of descendant package
+ protos.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="n">Boid</span> <span class="n">Package</span> <span class="o">:=</span> <span class="n">Object</span> <span class="k">clone</span> <span class="k">do</span><span class="o">(</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-3">#</a>
+        </div>
+        <p> The <code>canHandle</code> method returns a boolean whether or not the package
+ can handle a certain package spec.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">canHandle</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">spec</span><span class="o">,</span> <span class="no">false</span><span class="o">)</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-4">#</a>
+        </div>
+        <p> The <code>install</code> method attempts to install the package according to its
+ specification. A <code>BoidError</code> should be raised whenever a problem occurs,
+ <code>Boid fail</code> should not be called directly.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">install</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span>
+    <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;packages of this type cannot yet be installed&quot;</span><span class="o">))</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-5">#</a>
+        </div>
+        <p> Surprisingly, the <code>uninstall</code> method uninstalls a package.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">uninstall</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span>
+    <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;packages of this type cannot yet be uninstalled&quot;</span><span class="o">)))</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-6">#</a>
+        </div>
+        <p> Boid can install single-file packages, as long as they end with the .io
+ file extension.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="n">Boid</span> <span class="n">FilePackage</span> <span class="o">:=</span> <span class="n">Boid</span> <span class="n">Package</span> <span class="k">clone</span> <span class="k">do</span><span class="o">(</span>
+  
+  <span class="n">canHandle</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">spec</span><span class="o">,</span>
+    <span class="n">spec</span> <span class="n">matchesRegex</span><span class="o">(</span><span class="s">&quot;^.*\.io$&quot;</span><span class="o">))</span>
+  
+  <span class="n">validates</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">spec</span><span class="o">,</span>
+    <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span> <span class="n">exists</span><span class="o">)</span>
+  
+  <span class="n">isInstalled</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">spec</span><span class="o">,</span>
+    <span class="n">localFile</span> <span class="o">:=</span> <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span>
+    <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">ioDir</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/&quot;</span> <span class="o">..</span> <span class="n">localFile</span> <span class="n">name</span><span class="o">)</span> <span class="n">exists</span><span class="o">)</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-7">#</a>
+        </div>
+        <p> Installation of a single-file package is pretty straightforward.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">install</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">spec</span><span class="o">,</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-8">#</a>
+        </div>
+        <p> The <code>FilePackage</code> object makes sure it recognizes the package spec
+ it was given, and makes sure the file being installed actually
+ exists and was not installed already.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span><span class="o">(</span><span class="n">canHandle</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;`#{spec}&#39; isn&#39;t recognized by #{type}&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">validates</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;`#{spec}&#39; does not exist&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">isInstalled</span><span class="o">(</span><span class="n">spec</span><span class="o">),</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;`#{spec}&#39; is already installed&quot;</span> <span class="n">interpolate</span><span class="o">))</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-9">#</a>
+        </div>
+        <p> If everything goes well the Io source file is copied to the <strong>io/</strong>
+ directory in the active environment and the original source file
+ is left where it is.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">localFile</span> <span class="o">:=</span> <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span>
+    <span class="n">pkgFile</span> <span class="o">:=</span> <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">ioDir</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/&quot;</span> <span class="o">..</span> <span class="n">localFile</span> <span class="n">name</span><span class="o">)</span>
+    <span class="n">localFile</span> <span class="n">copyToPath</span><span class="o">(</span><span class="n">pkgFile</span> <span class="n">path</span><span class="o">)</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">pkgFile</span> <span class="n">exists</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;addition of `#{localFile name}&#39; to active environment failed&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="no">true</span><span class="o">)</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-10'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-10">#</a>
+        </div>
+        <p> When a single source file package is removed, it is just a matter of
+ deleting the file from the <strong>io/</strong> directory in the active environment.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="n">uninstall</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">spec</span><span class="o">,</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">canHandle</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;`#{spec}&#39; isn&#39;t recognized by #{type}&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">isInstalled</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span> <span class="n">not</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;`#{spec}&#39; is not installed&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="n">localFile</span> <span class="o">:=</span> <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">spec</span><span class="o">)</span>
+    <span class="n">pkgFile</span> <span class="o">:=</span> <span class="n">File</span> <span class="n">with</span><span class="o">(</span><span class="n">Boid</span> <span class="n">ioDir</span> <span class="n">path</span> <span class="o">..</span> <span class="s">&quot;/&quot;</span> <span class="o">..</span> <span class="n">localFile</span> <span class="n">name</span><span class="o">)</span>
+    <span class="n">pkgFile</span> <span class="n">remove</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">pkgFile</span> <span class="n">exists</span><span class="o">,</span>
+      <span class="n">BoidError</span> <span class="n">raise</span><span class="o">(</span><span class="s">&quot;removal of `#{localFile name}&#39; from active environment failed&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    <span class="no">true</span><span class="o">))</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-11'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-11">#</a>
+        </div>
+        <p> Available package handlers are kept in a list, ordered by priority from
+ highest to lowest. Only the <code>FilePackage</code> single-file package handler is
+ available currently.</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="n">Boid</span> <span class="n">Package</span> <span class="n">handlers</span> <span class="o">:=</span> <span class="n">list</span><span class="o">(</span><span class="n">Boid</span> <span class="n">FilePackage</span><span class="o">)</span></pre></div>
+      </td>
+    </tr>
+    </table>
+</div>
+</body>
