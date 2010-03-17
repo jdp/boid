@@ -1,6 +1,7 @@
-# Basically all of this was converted from Ruby to Io, the source
-# being the Rip project.
-# http://hellorip.com
+# Basically all of this was ported from Ruby to Io, the source
+# being the [Rip project][rip].
+#
+# [rip]: http://hellorip.com
  
 Git := Object clone
 
