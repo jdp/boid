@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Git.io</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        <a class="source" href="Boid.html">Boid.io</a>
+        <a class="source" href="Environment.html">Environment.io</a>
+        <a class="source" href="Git.html">Git.io</a>
+        <a class="source" href="Package.html">Package.io</a>
+        </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>Git.io</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-1">#</a>
+        </div>
+        <p> Basically all of this was ported from Ruby to Io, the source
+ being the <a href="http://hellorip.com">Rip project</a>.</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre> 
+<span class="n">Git</span> <span class="o">:=</span> <span class="n">Object</span> <span class="k">clone</span>
+
+<span class="n">Git</span> <span class="k">do</span><span class="o">(</span>
+
+  <span class="n">lsRemote</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">version</span> <span class="o">=</span> <span class="no">nil</span><span class="o">,</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git ls-remote #{source} #{version}&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+  
+  <span class="n">klone</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">cacheName</span><span class="o">,</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git clone #{source} #{cacheName}&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+  
+  <span class="n">fetch</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">remote</span><span class="o">,</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git fetch #{remote}&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+  
+  <span class="n">resetHard</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">version</span><span class="o">,</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git reset --hard #{version}&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+  
+  <span class="n">submoduleInit</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git submodule init&quot;</span><span class="o">))</span>
+  
+  <span class="n">submoduleUpdate</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git submodule update&quot;</span><span class="o">))</span>
+  
+  <span class="n">revParse</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git rev-parse #{obj}&quot;</span> <span class="n">interpolate</span><span class="o">))</span>
+    
+  <span class="n">catFile</span> <span class="o">:=</span> <span class="k">method</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span>
+    <span class="n">System</span> <span class="n">runCommand</span><span class="o">(</span><span class="s">&quot;git cat-file -p #{obj}&quot;</span><span class="o">)))</span>
+    </pre></div>
+      </td>
+    </tr>
+    </table>
+</div>
+</body>
